@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  username      String    @unique
+  email         String    @unique
+  avatar        String?
+  discordId     String    @unique
+  membership    String    @default("free")
+  downloads     Int       @default(0)
+  reputation    Int       @default(0)
+  points        Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  assets        Asset[]
+  threads       ForumThread[]
+  replies       ForumReply[]
+  notifications Notification[]
+  sessions      Session[]
+  accounts      Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Asset {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String
+  framework   String
+  version     String
+  price       String
+  image       String
+  downloads   Int      @default(0)
+  rating      Float    @default(0)
+  authorId    String
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  author      User     @relation(fields: [authorId], references: [id])
+  
+  @@index([category])
+  @@index([authorId])
+}
+
+model ForumCategory {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  description String
+  icon        String
+  color       String
+  threads     ForumThread[]
+}
+
+model ForumThread {
+  id         String        @id @default(cuid())
+  title      String
+  content    String
+  categoryId String
+  authorId   String
+  views      Int           @default(0)
+  likes      Int           @default(0)
+  isPinned   Boolean       @default(false)
+  isLocked   Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  
+  category   ForumCategory @relation(fields: [categoryId], references: [id])
+  author     User          @relation(fields: [authorId], references: [id])
+  replies    ForumReply[]
+  
+  @@index([categoryId])
+  @@index([authorId])
+}
+
+model ForumReply {
+  id        String      @id @default(cuid())
+  content   String
+  threadId  String
+  authorId  String
+  likes     Int         @default(0)
+  isEdited  Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  thread    ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author    User        @relation(fields: [authorId], references: [id])
+  
+  @@index([threadId])
+  @@index([authorId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  userId    String
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
