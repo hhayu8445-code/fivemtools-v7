@@ -104,7 +104,7 @@ export function Header() {
               size="icon"
               className="rounded-full h-10 w-10 p-0 overflow-hidden border-2 border-transparent hover:border-primary/50"
             >
-              <img src={session.user?.image || "/gamer-avatar.png"} alt="User" className="h-full w-full object-cover" />
+              <img src={session.user?.avatar || "/gamer-avatar.png"} alt="User" className="h-full w-full object-cover" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 glass">
