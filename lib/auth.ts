@@ -19,7 +19,7 @@ export const authOptions: NextAuthOptions = {
           id: profile.id,
           username: profile.username,
           email: profile.email,
-          avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null,
+          avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : undefined,
           discordId: profile.id,
           membership: "free",
           downloads: 0,
