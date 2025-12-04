@@ -7,8 +7,9 @@ export async function POST(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     const session = await getServerSession(authOptions)
     
     if (!session?.user?.id) {

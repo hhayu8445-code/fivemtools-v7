@@ -5,8 +5,9 @@ export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     const thread = await prisma.forumThread.update({
       where: { id },
       data: { views: { increment: 1 } },
@@ -30,8 +31,9 @@ export async function PATCH(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     const body = await request.json()
     const thread = await prisma.forumThread.update({
       where: { id },
@@ -49,8 +51,9 @@ export async function DELETE(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     await prisma.forumThread.delete({
       where: { id },
     })

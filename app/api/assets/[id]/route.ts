@@ -5,8 +5,9 @@ export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     const asset = await prisma.asset.findUnique({
       where: { id },
       include: { author: true },
@@ -26,8 +27,9 @@ export async function PATCH(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     const body = await request.json()
     const asset = await prisma.asset.update({
       where: { id },
@@ -45,8 +47,9 @@ export async function DELETE(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     await prisma.asset.delete({
       where: { id },
     })

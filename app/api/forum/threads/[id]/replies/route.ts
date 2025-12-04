@@ -7,8 +7,9 @@ export async function POST(
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params
+  
   try {
-    const { id } = await context.params
     const ip = request.headers.get("x-forwarded-for") || "unknown"
     const rateLimitCheck = checkRateLimit(ip, 5, 60000)
     if (!rateLimitCheck.success) return rateLimitCheck.response
