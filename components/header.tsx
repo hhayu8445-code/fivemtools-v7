@@ -109,7 +109,7 @@ export function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 glass">
             <div className="p-3 border-b border-border">
-              <p className="font-semibold text-foreground">{session.user?.username || session.user?.name}</p>
+              <p className="font-semibold text-foreground">{session.user?.username}</p>
               <p className="text-xs text-primary">{session.user?.membership?.toUpperCase() || "FREE"} Member</p>
               <p className="text-[10px] text-muted-foreground">{session.user?.email}</p>
             </div>
