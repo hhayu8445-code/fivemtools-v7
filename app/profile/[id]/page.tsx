@@ -72,7 +72,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
                       VIP
                     </Badge>
                   )}
-                  {mockUser.membership === "admin" && (
+                  {(mockUser.membership as string) === "admin" && (
                     <Badge className="bg-destructive/20 text-destructive">
                       <Shield className="h-3 w-3 mr-1" />
                       Admin
