@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
           },
         })
         if (dbUser) {
-          session.user = { ...session.user, ...dbUser }
+          session.user = { ...session.user, ...dbUser, avatar: dbUser.avatar || undefined }
         }
       }
       return session
